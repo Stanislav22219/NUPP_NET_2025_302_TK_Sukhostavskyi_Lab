@@ -8,7 +8,7 @@ namespace VideoGames
 {
     public class Gamer
     {
-        public Guid GamerId { get; set; }
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public int Age { get; set; }
     }
