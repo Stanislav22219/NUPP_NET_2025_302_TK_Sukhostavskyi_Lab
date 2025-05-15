@@ -1,4 +1,6 @@
-﻿namespace VideoGames.Common
+﻿using System.Collections.Generic;
+
+namespace VideoGames.Common
 {
     public class GameCollection
     {
