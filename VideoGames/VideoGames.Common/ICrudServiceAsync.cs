@@ -14,6 +14,9 @@ namespace VideoGames.Common
         private readonly List<T> _data = new();
         private readonly Func<T, Guid> _idSelector;
         private readonly SemaphoreSlim _semaphore = new(1, 1); // для контролю доступу
+        private static readonly object _lock = new object(); // Lock для потокобезпеки
+        private static readonly AutoResetEvent _resetEvent = new AutoResetEvent(true);
+        private static readonly Mutex _mutex = new Mutex();
 
         public CrudServiceAsync(Func<T, Guid> idSelector)
         {
@@ -25,7 +28,10 @@ namespace VideoGames.Common
             await _semaphore.WaitAsync();
             try
             {
-                _data.Add(element);
+                lock (_lock) // Захист списку
+                {
+                    _data.Add(element);
+                }
                 return true;
             }
             finally
@@ -78,6 +84,7 @@ namespace VideoGames.Common
             await _semaphore.WaitAsync();
             try
             {
+                _mutex.WaitOne(); // Захист від одночасного оновлення
                 var id = _idSelector(element);
                 var existingElement = await ReadAsync(id);
                 if (existingElement != null)
@@ -90,6 +97,7 @@ namespace VideoGames.Common
             }
             finally
             {
+                _mutex.ReleaseMutex();
                 _semaphore.Release();
             }
         }
@@ -99,7 +107,14 @@ namespace VideoGames.Common
             await _semaphore.WaitAsync();
             try
             {
-                return _data.Remove(element);
+                _resetEvent.WaitOne(); // Чекає сигнал
+                bool result;
+                lock (_lock)
+                {
+                    result = _data.Remove(element);
+                }
+                _resetEvent.Set(); // Дозволяє наступному потоку виконання
+                return result;
             }
             finally
             {
@@ -107,13 +122,13 @@ namespace VideoGames.Common
             }
         }
 
-        public async Task<bool> SaveAsync()
+        public async Task<bool> SaveAsync(string FilePath)
         {
             await _semaphore.WaitAsync();
             try
             {
-                var json = JsonSerializer.Serialize(_data, new JsonSerializerOptions { WriteIndented = true });
-                await File.WriteAllTextAsync("data.json", json);
+                var jsonData = JsonSerializer.Serialize(_data, new JsonSerializerOptions { WriteIndented = true });
+                await File.WriteAllTextAsync(FilePath, jsonData);
                 return true;
             }
             finally

@@ -1,11 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoGames.Common", "VideoGames.Common\VideoGames.Common.csproj", "{731DE798-122F-4B4D-9974-5678F0817250}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoGames.Console", "VideoGames.Console\VideoGames.Console.csproj", "{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGames.Tests", "VideoGames.Tests\VideoGames.Tests.csproj", "{ADBB93BB-C86D-4C7B-95B3-138986419678}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +22,15 @@ Global
 		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADBB93BB-C86D-4C7B-95B3-138986419678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADBB93BB-C86D-4C7B-95B3-138986419678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADBB93BB-C86D-4C7B-95B3-138986419678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADBB93BB-C86D-4C7B-95B3-138986419678}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E41C440-C26E-4A85-8E82-C56BC05FDDD9}
 	EndGlobalSection
 EndGlobal

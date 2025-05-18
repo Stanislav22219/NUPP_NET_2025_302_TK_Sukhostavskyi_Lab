@@ -14,7 +14,7 @@ namespace VideoGames.Common
         public Task<IEnumerable<T>> ReadAllAsync(int page, int amount);
         public Task<bool> UpdateAsync(T element);
         public Task<bool> RemoveAsync(T element);
-        public Task<bool> SaveAsync();
+        public Task<bool> SaveAsync(string FilePath);
     }
 
 }
