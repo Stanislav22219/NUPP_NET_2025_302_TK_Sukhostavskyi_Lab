@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace VideoGames.Common
 {
-    public interface ICrudServiceAsync<T> : IEnumerable<T>
+
+    public interface ICrudServiceAsync<T>
     {
         public Task<bool> CreateAsync(T element);
         public Task<T> ReadAsync(Guid id);
@@ -14,7 +15,7 @@ namespace VideoGames.Common
         public Task<IEnumerable<T>> ReadAllAsync(int page, int amount);
         public Task<bool> UpdateAsync(T element);
         public Task<bool> RemoveAsync(T element);
-        public Task<bool> SaveAsync(string FilePath);
+        public Task<bool> SaveAsync();
     }
 
 }

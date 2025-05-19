@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoGames.Common;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using VideoGames.Infrastructure;
+using VideoGames.Infrastructure.Models;
+using VideoGames.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Builder;
+
 
 namespace VideoGames.Console
 {
@@ -11,32 +18,16 @@ namespace VideoGames.Console
     {
         static async Task Main(string[] args)
         {
-            var gameService = new CrudServiceAsync<Game>(game => game.Id);
-            var games = new List<Game>();
-            string filePath = "games.json";
+            var builder = WebApplication.CreateBuilder(args);
 
-            // Використання Parallel.For для масового створення об'єктів
-            Parallel.For(0, 1000, _ =>
-            {
-                var newGame = Game.CreateNew();
-                lock (games) // Захист списку від конкурентного доступу
-                {
-                    games.Add(newGame);
-                }
-            });
+            builder.Services.AddDbContext<VideoGamesContext>(options =>
+                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=VideoGamesDB;Trusted_Connection=True;"));
 
-            // Додавання всіх створених об'єктів у сервіс
-            foreach (var game in games)
-            {
-                await gameService.CreateAsync(game);
-            }
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped(typeof(ICrudServiceAsync<>), typeof(CrudServiceAsync<>));
 
-            // Аналіз даних
-            Game.ShowStatistics();
-
-            // Збереження у файл
-            await gameService.SaveAsync(filePath);
-            System.Console.WriteLine($"Data saved in: {filePath}");
+            var app = builder.Build();
+            app.Run();
         }
     }
 }

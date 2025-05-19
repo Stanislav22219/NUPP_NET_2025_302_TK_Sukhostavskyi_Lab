@@ -22,4 +22,7 @@
     <PackageReference Include="System.Text.Json" Version="10.0.0-preview.4.25258.110" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VideoGames.Infrastructure\VideoGames.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
