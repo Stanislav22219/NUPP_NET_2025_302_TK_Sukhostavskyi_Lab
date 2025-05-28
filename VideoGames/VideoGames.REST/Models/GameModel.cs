@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VideoGames.REST.Models
+﻿namespace VideoGames.REST.Models
 {
     public class GameModel
     {

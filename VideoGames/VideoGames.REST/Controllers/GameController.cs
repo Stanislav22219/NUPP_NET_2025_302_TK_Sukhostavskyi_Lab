@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using VideoGames.REST.Models;
+using VideoGames.Infrastructure.Models;
 using VideoGames.Common;
 
 namespace VideoGames.REST.Controllers
@@ -19,21 +16,20 @@ namespace VideoGames.REST.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(GameModel game)
+        public async Task<IActionResult> Create([FromBody] GameModel game)
         {
             var result = await _gameService.CreateAsync(game);
             return result ? StatusCode(201) : BadRequest();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Read(Guid id)
+        [HttpGet("ping")]
+        public IActionResult Ping()
         {
-            var game = await _gameService.ReadAsync(id);
-            return game != null ? Ok(game) : NotFound();
+            return Ok("Сервер працює!");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, GameModel game)
+        public async Task<IActionResult> Update(Guid id, [FromBody] GameModel game)
         {
             var result = await _gameService.UpdateAsync(game);
             return result ? NoContent() : NotFound();
