@@ -9,9 +9,11 @@ builder.Services.AddDbContext<VideoGamesContext>(options =>
 
 // Реєстрація репозиторію
 builder.Services.AddScoped<IRepository<GameModel>, Repository<GameModel>>();
+builder.Services.AddScoped<IRepository<GamePlayer>, Repository<GamePlayer>>();
 
 // Реєстрація сервісу CRUD
 builder.Services.AddScoped<ICrudServiceAsync<GameModel>, CrudServiceAsync<GameModel>>();
+builder.Services.AddScoped<ICrudServiceAsync<GamePlayer>, CrudServiceAsync<GamePlayer>>();
 
 builder.Services.AddAuthorization();
 
