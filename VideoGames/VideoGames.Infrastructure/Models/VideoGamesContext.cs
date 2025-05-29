@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using VideoGames.Infrastructure.Models;
+﻿using Microsoft.EntityFrameworkCore;
+
 
 namespace VideoGames.Infrastructure.Models
 {
     public class VideoGamesContext : DbContext
     {
         public VideoGamesContext(DbContextOptions<VideoGamesContext> options) : base(options) { }
+
         public DbSet<GameModel> Games { get; set; }
         public DbSet<DeveloperModel> Developers { get; set; }
         public DbSet<PlayerModel> Players { get; set; }

@@ -8,10 +8,10 @@ namespace VideoGames.Infrastructure.Models
 {
     public class PlayerModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public int Level { get; set; }
-        public int GameModelId { get; set; } // Зовнішній ключ
+        public Guid GameModelId { get; set; } // Зовнішній ключ
         public GameModel GameModel { get; set; } // Навігаційна властивість
         public List<GamePlayer> GamePlayers { get; set; } = new List<GamePlayer>();
 

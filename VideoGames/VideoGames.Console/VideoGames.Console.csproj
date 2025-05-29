@@ -10,6 +10,7 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
     <ProjectReference Include="..\VideoGames.Common\VideoGames.Common.csproj" />
     <ProjectReference Include="..\VideoGames.Infrastructure\VideoGames.Infrastructure.csproj" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

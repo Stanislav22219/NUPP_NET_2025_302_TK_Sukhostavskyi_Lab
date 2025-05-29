@@ -8,7 +8,7 @@ namespace VideoGames.Infrastructure.Models
 {
     public class DeveloperModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Headquarters { get; set; }
 
