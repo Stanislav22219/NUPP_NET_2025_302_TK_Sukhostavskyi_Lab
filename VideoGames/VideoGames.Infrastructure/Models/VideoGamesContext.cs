@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace VideoGames.Infrastructure.Models
 {
-    public class VideoGamesContext : DbContext
+    public class VideoGamesContext : IdentityDbContext<ApplicationUser>
     {
         public VideoGamesContext(DbContextOptions<VideoGamesContext> options) : base(options) { }
 
@@ -19,6 +20,7 @@ namespace VideoGames.Infrastructure.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             // Багато-до-багатьох: Гравці та Ігри через GamePlayer
             modelBuilder.Entity<GamePlayer>()
                 .HasKey(gp => new { gp.GameId, gp.PlayerId });

@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VideoGames.Infrastructure.Models;
 using VideoGames.Common;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace VideoGames.REST.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GamePlayerController : ControllerBase
     {
         private readonly ICrudServiceAsync<GamePlayer> _gamePlayerService;
@@ -18,7 +19,7 @@ namespace VideoGames.REST.Controllers
             _gamePlayerService = gamePlayerService;
         }
 
-        // Отримати всіх гравців у грі
+        [Authorize(Roles = "User,Admin,Moderator")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,15 +27,7 @@ namespace VideoGames.REST.Controllers
             return Ok(gamePlayers);
         }
 
-        // Отримати конкретного гравця у грі
-        [HttpGet("{gameId}/{playerId}")]
-        public async Task<IActionResult> Get(Guid gameId, Guid playerId)
-        {
-            var gamePlayer = await _gamePlayerService.ReadAsync(gameId);
-            return gamePlayer != null && gamePlayer.PlayerId == playerId ? Ok(gamePlayer) : NotFound();
-        }
-
-        // Додати гравця до гри
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] GamePlayer gamePlayer)
         {
@@ -43,7 +36,7 @@ namespace VideoGames.REST.Controllers
             return result ? StatusCode(201) : BadRequest();
         }
 
-        // Оновити інформацію про гравця у грі
+        [Authorize(Roles = "User")]
         [HttpPut("{gameId}/{playerId}")]
         public async Task<IActionResult> Update(Guid gameId, Guid playerId, [FromBody] GamePlayer gamePlayer)
         {
@@ -54,7 +47,7 @@ namespace VideoGames.REST.Controllers
             return result ? NoContent() : NotFound();
         }
 
-        // Видалити гравця з гри
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{gameId}/{playerId}")]
         public async Task<IActionResult> Delete(Guid gameId, Guid playerId)
         {
