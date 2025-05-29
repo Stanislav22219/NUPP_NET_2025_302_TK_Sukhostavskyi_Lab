@@ -10,6 +10,6 @@ namespace VideoGames.Infrastructure.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string Username { get; set; }
+        
     }
 }
