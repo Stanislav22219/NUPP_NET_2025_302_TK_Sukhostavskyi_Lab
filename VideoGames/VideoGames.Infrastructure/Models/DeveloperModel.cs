@@ -13,6 +13,6 @@ namespace VideoGames.Infrastructure.Models
         public string Headquarters { get; set; }
 
         // Навігаційна властивість
-        public GameModel Game { get; set; }
+        public List<GameModel> Games { get; set; } = new List<GameModel>();
     }
 }

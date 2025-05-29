@@ -24,7 +24,7 @@ static async Task SeedRoles(IServiceProvider serviceProvider)
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VideoGamesContext>(options =>
-    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=VideoGamesDB;Trusted_Connection=True;"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Реєстрація репозиторію
 builder.Services.AddScoped<IRepository<GameModel>, Repository<GameModel>>();
@@ -65,11 +65,11 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await SeedRoles(services);
-}
+}*/
 
 if (app.Environment.IsDevelopment())
 {
