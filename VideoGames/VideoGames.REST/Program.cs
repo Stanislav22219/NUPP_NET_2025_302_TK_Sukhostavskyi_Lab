@@ -1,4 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using VideoGames.Common;
+using VideoGames.Infrastructure.Models;
+using VideoGames.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<VideoGamesContext>(options =>
+    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=VideoGamesDB;Trusted_Connection=True;"));
+
+// Реєстрація репозиторію
+builder.Services.AddScoped<IRepository<GameModel>, Repository<GameModel>>();
+
+// Реєстрація сервісу CRUD
+builder.Services.AddScoped<ICrudServiceAsync<GameModel>, CrudServiceAsync<GameModel>>();
+
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 

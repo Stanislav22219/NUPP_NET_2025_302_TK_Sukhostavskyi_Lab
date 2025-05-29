@@ -8,10 +8,10 @@ namespace VideoGames.Infrastructure.Models
 {
     public class GamePlayer
     {
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
         public GameModel Game { get; set; }
 
-        public int PlayerId { get; set; }
+        public Guid PlayerId { get; set; }
         public PlayerModel Player { get; set; }
     }
 }

@@ -22,10 +22,11 @@ namespace VideoGames.REST.Controllers
             return result ? StatusCode(201) : BadRequest();
         }
 
-        [HttpGet("ping")]
-        public IActionResult Ping()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Read(Guid id)
         {
-            return Ok("Сервер працює!");
+            var game = await _gameService.ReadAsync(id);
+            return game != null ? Ok(game) : NotFound();
         }
 
         [HttpPut("{id}")]
