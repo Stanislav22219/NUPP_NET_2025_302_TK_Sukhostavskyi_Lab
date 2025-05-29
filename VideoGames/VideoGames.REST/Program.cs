@@ -35,7 +35,7 @@ builder.Services.AddScoped<IRepository<GamePlayer>, Repository<GamePlayer>>();
 builder.Services.AddScoped<ICrudServiceAsync<GameModel>, CrudServiceAsync<GameModel>>();
 builder.Services.AddScoped<ICrudServiceAsync<GamePlayer>, CrudServiceAsync<GamePlayer>>();
 
-builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -84,6 +84,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false
     };
 });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
