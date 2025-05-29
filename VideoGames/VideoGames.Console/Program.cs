@@ -9,51 +9,34 @@ namespace VideoGames.Console
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var gamerService = new CrudService<Gamer>(gamer => gamer.Id);
+            var gameService = new CrudServiceAsync<Game>(game => game.Id);
+            var games = new List<Game>();
+            string filePath = "games.json";
 
-            var gamer1 = new Gamer {Id = Guid.NewGuid(), Username = "Nomad", Age = 26};
-            var gamer2 = new Gamer {Id = Guid.NewGuid(), Username = "Psycho", Age = 39};
-            //шлях до файлу для збереження
-            string filePath = "gamers.json";
-
-            //створення
-            gamerService.Create(gamer1);
-            gamerService.Create(gamer2);
-
-            //читання
-            System.Console.WriteLine("Gamer list:");
-            foreach (var gamer in gamerService.ReadAll())
+            // Використання Parallel.For для масового створення об'єктів
+            Parallel.For(0, 1000, _ =>
             {
-                System.Console.WriteLine($"id: {gamer.Id}, username: {gamer.Username}, age: {gamer.Age}");
-            }
-            // використання методу Save
-            gamerService.Save(filePath);
-            System.Console.WriteLine($"\nData saved in: {filePath}\n");
+                var newGame = Game.CreateNew();
+                lock (games) // Захист списку від конкурентного доступу
+                {
+                    games.Add(newGame);
+                }
+            });
 
-            //оновлення
-            gamer1.Age = 27;
-            gamerService.Update(gamer1);
-
-            //видалення
-            gamerService.Remove(gamer2);
-
-            System.Console.WriteLine("Gamer list:");
-            foreach (var gamer in gamerService.ReadAll())
+            // Додавання всіх створених об'єктів у сервіс
+            foreach (var game in games)
             {
-                System.Console.WriteLine($"id: {gamer.Id}, username: {gamer.Username}, age: {gamer.Age}");
+                await gameService.CreateAsync(game);
             }
 
-            // завантаженням даних з файлу методом Load
-            gamerService.Load(filePath);
-            System.Console.WriteLine($"\nData loaded from: {filePath}\n");
+            // Аналіз даних
+            Game.ShowStatistics();
 
-            System.Console.WriteLine("Gamer list:");
-            foreach (var gamer in gamerService.ReadAll())
-            {
-                System.Console.WriteLine($"id: {gamer.Id}, username: {gamer.Username}, age: {gamer.Age}");
-            }
+            // Збереження у файл
+            await gameService.SaveAsync(filePath);
+            System.Console.WriteLine($"Data saved in: {filePath}");
         }
     }
 }
