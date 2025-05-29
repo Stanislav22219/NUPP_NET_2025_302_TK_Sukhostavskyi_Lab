@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGames.Common", "VideoGames.Common\VideoGames.Common.csproj", "{731DE798-122F-4B4D-9974-5678F0817250}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGames.Console", "VideoGames.Console\VideoGames.Console.csproj", "{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{731DE798-122F-4B4D-9974-5678F0817250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731DE798-122F-4B4D-9974-5678F0817250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731DE798-122F-4B4D-9974-5678F0817250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731DE798-122F-4B4D-9974-5678F0817250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC8241B-20AD-435A-8EDA-9FAB06357C7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
