@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace VideoGames.Infrastructure.Models
 {
-    public class VideoGamesContext : DbContext
+    public class VideoGamesContext : IdentityDbContext<ApplicationUser>
     {
         public VideoGamesContext(DbContextOptions<VideoGamesContext> options) : base(options) { }
 
@@ -12,13 +13,10 @@ namespace VideoGames.Infrastructure.Models
         public DbSet<PlayerModel> Players { get; set; }
         public DbSet<GamePlayer> GamePlayers { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=VideoGamesDB;Trusted_Connection=True;");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Багато-до-багатьох: Гравці та Ігри через GamePlayer
             modelBuilder.Entity<GamePlayer>()
                 .HasKey(gp => new { gp.GameId, gp.PlayerId });
@@ -38,14 +36,15 @@ namespace VideoGames.Infrastructure.Models
             // Один-до-одного: GameModel та DeveloperModel
             modelBuilder.Entity<GameModel>()
                 .HasOne(g => g.Developer)
-                .WithOne(d => d.Game)
-                .HasForeignKey<DeveloperModel>(d => d.Id);
+                .WithMany(d => d.Games)
+                .HasForeignKey(g => g.Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Один-до-багатьох: GameModel та PlayerModel
-            modelBuilder.Entity<GameModel>()
-                .HasMany(g => g.Players)
-                .WithOne(p => p.GameModel)
-                .HasForeignKey(p => p.GameModelId);
+            // Один-до-багатьох: GameModel та PlayerModel через GamePlayer
+            modelBuilder.Entity<PlayerModel>()
+                .HasMany(p => p.GamePlayers)
+                .WithOne(gp => gp.Player)
+                .HasForeignKey(gp => gp.PlayerId);
         }
     }
 }

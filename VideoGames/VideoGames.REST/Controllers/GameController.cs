@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VideoGames.Infrastructure.Models;
 using VideoGames.Common;
+using System;
+using System.Threading.Tasks;
 
 namespace VideoGames.REST.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GameController : ControllerBase
     {
         private readonly ICrudServiceAsync<GameModel> _gameService;
@@ -15,6 +19,7 @@ namespace VideoGames.REST.Controllers
             _gameService = gameService;
         }
 
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] GameModel game)
         {
@@ -22,6 +27,7 @@ namespace VideoGames.REST.Controllers
             return result ? StatusCode(201) : BadRequest();
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Read(Guid id)
         {
@@ -29,6 +35,7 @@ namespace VideoGames.REST.Controllers
             return game != null ? Ok(game) : NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] GameModel game)
         {
@@ -36,6 +43,7 @@ namespace VideoGames.REST.Controllers
             return result ? NoContent() : NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
